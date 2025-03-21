@@ -2,9 +2,14 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install
+
+ENV NODE_ENV=development
+
+RUN npm install --include=dev
 
 COPY . .
+
+RUN npm run docker-test
 RUN npm run build
 
 FROM nginx:alpine
