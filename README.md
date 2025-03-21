@@ -1,54 +1,80 @@
-# React + TypeScript + Vite
+# Comment Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+This application allows users to search for comments through the public JSONPlaceholder API.
 
-Currently, two official plugins are available:
+Users can enter text in the search bar to find comments containing that text. The system displays suggestions while typing (typeahead) and includes pagination to navigate through the results.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application runs inside a Docker container and can be started following the instructions below.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## **Technologies Used**
+- **React + TypeScript**
+- **Styled Components** for styling
+- **Axios** for API calls
+- **Vitest** for testing
+- **Docker** for containerization
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## **Installation and Setup**
+### **1. Clone the repository**
+```sh
+git clone <REPO_URL>
+cd comment-search
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### **2. Install dependencies**
+```sh
+npm install
 ```
+
+### **3. Start the development server**
+```sh
+npm run dev
+```
+The app will be available at `http://localhost:5173/`.
+
+---
+
+## **Running with Docker**
+### **1. Build the Docker image**
+```sh
+docker build -t comment_search:latest .
+```
+
+### **2. Run the container**
+```sh
+docker run -p 8080:8080 comment_search:latest
+```
+The app will be available at `http://localhost:8080/`.
+
+---
+
+## **Testing**
+### **Run unit tests with Vitest**
+```sh
+npm test
+```
+If using Docker, run:
+```sh
+docker exec -it <CONTAINER_ID> sh -c "npm test"
+```
+
+---
+
+## **Implemented Features**
+✅ Search comments from a public API
+✅ Display up to 20 results with **name, email**, and **body (truncated to 64 characters)**
+✅ Search is triggered only when clicking the button
+✅ Search is only performed with at least **4 characters** (showing an error message if needed)
+✅ Real-time suggestions with debounce (Typeahead)
+✅ Pagination for results
+✅ Unit tests with **Vitest and Testing Library**
+
+---
+
+## **Author**
+Diana Lazzarin
+
