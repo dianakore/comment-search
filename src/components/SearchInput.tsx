@@ -49,7 +49,9 @@ const SearchInput: React.FC<SearchInputProps> = ({ query, setQuery, fetchComment
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <Button onClick={fetchComments}>Search</Button>
+      <Button 
+        onClick={fetchComments}
+        disabled={query.trim() === ""}>Search</Button>
     </div>
   );
 };

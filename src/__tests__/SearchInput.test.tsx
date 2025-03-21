@@ -28,4 +28,12 @@ describe("SearchInput Component", () => {
 
     expect(mockFetchComments).toHaveBeenCalledTimes(1);
   });
+  
+    it("disables the search button when input is empty", () => {
+      render(<SearchInput query="" setQuery={() => {}} fetchComments={() => {}} />);
+      const button = screen.getByRole("button", { name: "Search" });
+  
+      expect(button).toBeDisabled();
+    });
+  
 });

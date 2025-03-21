@@ -42,11 +42,12 @@ const SearchCommentsComponent: React.FC = () => {
         .slice(0, 5);
 
       setSuggestions(filtered);
-    }).catch(() => setError("Errore nel recupero dei dati"));
+    }).catch(() => setError("Error fetching data"));
   }, [debouncedQuery]);
 
   const fetchComments = async (): Promise<void> => {
     if (query.length < 4){
+      setError("Please enter at least 4 characters to perform the search");
       setResults([]);
       return;
 
@@ -56,23 +57,24 @@ const SearchCommentsComponent: React.FC = () => {
     setError("");
 
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get<APIResponse>(API_URL);
       setResults(response.data.filter((comment: DataComment) =>
         comment.body.toLowerCase().includes(query.toLowerCase())
       ));
       setCurrentPage(1);
     } catch {
-      setError("Errore nel recupero dei dati");
+      setError("Error fetching data");
     } finally {
       setLoading(false);
     }
   };
 
-//if input is empty, clear results and suggestions
+//if input is empty, clear results and suggestions and error
   useEffect(() => {
     if (query === "") {
       setResults([]);
       setSuggestions([]);
+      setError("");
     }
   }, [query]);
 
@@ -82,7 +84,7 @@ const SearchCommentsComponent: React.FC = () => {
       <SearchInput query={query} setQuery={setQuery} fetchComments={fetchComments} />
       <SuggestionsList suggestions={suggestions} setQuery={setQuery}/>
       {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>{error}</p>}
       <ResultsList 
         results={results} 
         currentPage={currentPage} 

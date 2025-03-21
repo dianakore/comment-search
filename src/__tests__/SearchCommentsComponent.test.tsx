@@ -17,4 +17,15 @@ describe("SearchCommentsComponent", () => {
     fireEvent.change(input, { target: { value: "tenet" } });
     expect(input).toHaveValue("tenet");
   });
+
+  it("shows an error message if search text is too short", async () => {
+    render(<SearchCommentsComponent />);
+
+    const input = screen.getByPlaceholderText("Search comments...");
+    const button = screen.getByRole("button", { name: "Search" });
+
+    fireEvent.change(input, { target: { value: "qui" } }); // inserted < 4 characters
+    fireEvent.click(button); // click on search button
+    expect(await screen.findByText("Please enter at least 4 characters to perform the search")).toBeInTheDocument();
+  });
 });
