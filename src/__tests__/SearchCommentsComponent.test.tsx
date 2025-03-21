@@ -14,7 +14,7 @@ describe("SearchCommentsComponent", () => {
     render(<SearchCommentsComponent />);
     const input = screen.getByPlaceholderText("Search comments...");
 
-    fireEvent.change(input, { target: { value: "test" } });
-    expect(input).toHaveValue("test");
+    fireEvent.change(input, { target: { value: "tenet" } });
+    expect(input).toHaveValue("tenet");
   });
 });

@@ -13,15 +13,20 @@ const Button = styled.button`
   margin-top: 10px;
   padding: 10px;
   font-size: 16px;
-  background-color: #007bff;
+  background-color: #ff206e;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 
-  &:hover {
-    background-color: #0056b3;
+ 
+   &:hover {
+    background-color: #981342;
   }
+   
+  &:focus {
+    outline: 2px solid white; 
+}
 
   &:disabled {
     background-color: #ccc;

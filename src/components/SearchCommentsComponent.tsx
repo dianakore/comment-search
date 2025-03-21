@@ -6,6 +6,7 @@ import styled from "styled-components";
 import SearchInput from "./SearchInput";
 import SuggestionsList from "./SuggestionsList";
 import ResultsList from "./ResultsList";
+import { APIResponse } from "../types/APIResponse";
 
 const API_URL = "https://jsonplaceholder.typicode.com/comments";
 
@@ -15,14 +16,14 @@ const Container = styled.div`
   font-family: Arial, sans-serif;
 `;
 
-const SearchCommentsComponent = () => {
-  const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<DataComment[]>([]);
-  const [results, setResults] = useState<DataComment[]>([]);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 5;
+const SearchCommentsComponent: React.FC = () => {
+  const [query, setQuery] = useState<string>("");
+  const [suggestions, setSuggestions] = useState<Array<DataComment>>([]);
+  const [results, setResults] = useState<Array<DataComment>>([]);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const resultsPerPage: number = 5;
 
   const debouncedQuery = useDebounce(query, 500);
 
@@ -32,8 +33,9 @@ const SearchCommentsComponent = () => {
       return;
     }
 
-    axios.get(API_URL).then(response => {
-      const filtered = response.data
+    axios.get<APIResponse>(API_URL)
+      .then(response => {
+        const filtered: Array<DataComment> = response.data
         .filter((comment: DataComment) =>
           comment.body.toLowerCase().includes(debouncedQuery.toLowerCase())
         )
@@ -43,7 +45,7 @@ const SearchCommentsComponent = () => {
     }).catch(() => setError("Errore nel recupero dei dati"));
   }, [debouncedQuery]);
 
-  const fetchComments = async () => {
+  const fetchComments = async (): Promise<void> => {
     if (query.length < 4){
       setResults([]);
       return;
@@ -65,7 +67,7 @@ const SearchCommentsComponent = () => {
       setLoading(false);
     }
   };
-  
+
 //if input is empty, clear results and suggestions
   useEffect(() => {
     if (query === "") {

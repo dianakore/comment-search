@@ -8,7 +8,7 @@ const SuggestionsWrapper = styled.div`
   width: 100%;
 `;
 
-const SuggestionsContainer = styled.ul<{ visible: boolean }>`
+const SuggestionsContainer = styled.ul<{ $visible: boolean }>`
  list-style: none;
   margin: 0;
   padding: 0;
@@ -19,7 +19,7 @@ const SuggestionsContainer = styled.ul<{ visible: boolean }>`
   z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  display: ${({ visible }) => (visible ? "block" : "none")};
+  display: ${({ $visible }) => ($visible ? "block" : "none")};
 `;
 
 const SuggestionItem = styled.li`
@@ -41,7 +41,7 @@ interface SuggestionsListProps {
 
 const SuggestionsList: React.FC<SuggestionsListProps> = ({ suggestions,  setQuery }) => {
 
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = React.useState<boolean>(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -69,7 +69,7 @@ const SuggestionsList: React.FC<SuggestionsListProps> = ({ suggestions,  setQuer
 
   return (
     <SuggestionsWrapper ref={containerRef}>
-    <SuggestionsContainer visible={visible}>
+    <SuggestionsContainer $visible={visible}>
       {suggestions.map((comment, index) => (
         <SuggestionItem key={index} onClick={() => handleSelect(comment)}>
           <strong>{comment.body}</strong>
